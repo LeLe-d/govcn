@@ -1,0 +1,323 @@
+/* 基本重置和全局样式 */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* 亮色主题变量 (默认) */
+:root {
+    --bg-color: #f8f9fa; /* 更柔和的背景 */
+    --text-color: #212529;
+    --heading-color: #343a40;
+    --sidebar-bg: #ffffff;
+    --sidebar-text-color: #495057;
+    --sidebar-hover-bg: #e9ecef;
+    --sidebar-active-bg: #007bff; /* 亮蓝色作为强调 */
+    --sidebar-active-text-color: #ffffff;
+    --content-bg: #ffffff;
+    --content-border-color: #dee2e6;
+    --button-bg: #6c757d;
+    --button-text-color: #ffffff;
+    --button-hover-bg: #5a6268;
+    --link-color: #007bff;
+    --link-hover-color: #0056b3;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --icon-color: #6c757d;
+    --code-bg: #f1f3f5;
+    --code-text: #212529;
+    --welcome-icon-color: #adb5bd;
+}
+
+/* 暗色主题变量 */
+body.dark-theme {
+    --bg-color: #121212; /* 深色背景 */
+    --text-color: #e0e0e0;
+    --heading-color: #f8f9fa;
+    --sidebar-bg: #1e1e1e;
+    --sidebar-text-color: #adb5bd;
+    --sidebar-hover-bg: #2c2c2c;
+    --sidebar-active-bg: #0d6efd; /* 亮蓝色在暗色中也很突出 */
+    --sidebar-active-text-color: #ffffff;
+    --content-bg: #161616;
+    --content-border-color: #333333;
+    --button-bg: #343a40;
+    --button-text-color: #f8f9fa;
+    --button-hover-bg: #495057;
+    --link-color: #6cb6ff;
+    --link-hover-color: #3a9dff;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --icon-color: #adb5bd;
+    --code-bg: #2c2c2c;
+    --code-text: #e0e0e0;
+    --welcome-icon-color: #6c757d;
+}
+
+/* Prism.js 主题适配 */
+body.dark-theme .token.comment,
+body.dark-theme .token.prolog,
+body.dark-theme .token.doctype,
+body.dark-theme .token.cdata {
+	color: #8292a2; /* 暗色主题下的注释颜色 */
+}
+/* 你可以根据选择的 Prism 主题进一步微调 */
+
+
+/* 应用主题变量 */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 300px; /* 稍微加宽 */
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text-color);
+    padding: 25px;
+    box-shadow: 2px 0 10px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10; /* 确保在内容之上 */
+}
+
+.sidebar-header {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 600;
+    color: var(--heading-color);
+}
+
+#theme-toggle {
+    background-color: transparent;
+    color: var(--icon-color);
+    border: none;
+    border-radius: 50%; /* 圆形按钮 */
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.5em; /* 图标大小 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#theme-toggle:hover {
+    background-color: var(--sidebar-hover-bg);
+}
+#theme-toggle .icon {
+    display: inline-block;
+    transition: transform 0.3s ease; /* 给图标旋转动画 */
+}
+
+
+#notes-list {
+    list-style-type: none;
+    overflow-y: auto;
+    flex-grow: 1;
+    margin-right: -10px; /* 隐藏滚动条视觉效果 */
+    padding-right: 10px; /* 为滚动条留出空间 */
+}
+
+#notes-list li {
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    font-size: 1.05em;
+    font-weight: 500;
+    border-left: 4px solid transparent; /* 为 active 状态准备 */
+}
+
+#notes-list li:hover {
+    background-color: var(--sidebar-hover-bg);
+    transform: translateX(2px);
+}
+
+#notes-list li.active {
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text-color);
+    font-weight: 600;
+    border-left-color: var(--sidebar-active-bg); /* 通常与背景色相同或稍深/亮 */
+}
+body.dark-theme #notes-list li.active {
+    border-left-color: var(--link-color); /* 暗色模式下用亮色边框 */
+}
+
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    font-size: 0.85em;
+    text-align: center;
+    color: var(--sidebar-text-color);
+    opacity: 0.7;
+}
+
+/* 内容区域样式 */
+.content-area {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: var(--content-bg);
+    transition: background-color 0.3s ease;
+    overflow-y: auto;
+}
+
+#note-title-display {
+    margin-top: 0;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--content-border-color);
+    color: var(--heading-color);
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+#note-content-display {
+    color: var(--text-color);
+    font-size: 1.1em; /* 增大正文可读性 */
+    max-width: 800px; /* 限制内容宽度，提高可读性 */
+}
+
+#note-content-display p,
+#note-content-display ul,
+#note-content-display ol,
+#note-content-display pre {
+    margin-bottom: 1.5em;
+}
+
+#note-content-display h1,
+#note-content-display h2,
+#note-content-display h3,
+#note-content-display h4,
+#note-content-display h5,
+#note-content-display h6 {
+    color: var(--heading-color);
+    margin-top: 1.8em;
+    margin-bottom: 0.8em;
+    font-weight: 600;
+}
+#note-content-display h1 { font-size: 2em; }
+#note-content-display h2 { font-size: 1.75em; }
+#note-content-display h3 { font-size: 1.5em; }
+
+
+#note-content-display ul,
+#note-content-display ol {
+    padding-left: 25px;
+}
+
+#note-content-display a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+#note-content-display a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+#note-content-display strong { font-weight: 600; }
+#note-content-display em { font-style: italic; }
+
+/* 代码块样式 */
+#note-content-display pre {
+    background-color: var(--code-bg);
+    color: var(--code-text); /* Prism会覆盖，但这是个后备 */
+    padding: 1.5em;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace; /* 代码专用字体 */
+    font-size: 0.95em;
+    line-height: 1.5;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+body.dark-theme #note-content-display pre {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#note-content-display code:not(pre code) { /* 行内代码 */
+    background-color: var(--code-bg);
+    color: var(--code-text);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9em;
+}
+
+
+/* 欢迎信息和笔记视图的显示/隐藏 */
+.note-view-hidden,
+.welcome-message-hidden {
+    display: none;
+}
+
+.note-view-visible,
+.welcome-message-visible {
+    display: block;
+}
+
+.welcome-message-visible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: var(--sidebar-text-color);
+    opacity: 0.8;
+}
+.welcome-message-visible svg {
+    margin-bottom: 20px;
+    stroke: var(--welcome-icon-color);
+}
+.welcome-message-visible p {
+    font-size: 1.2em;
+}
+
+/* 滚动条美化 (可选, Webkit 浏览器) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--sidebar-text-color);
+    border-radius: 4px;
+    opacity: 0.5;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--heading-color);
+    opacity: 0.8;
+}
+body.dark-theme ::-webkit-scrollbar-thumb {
+    background: var(--sidebar-text-color);
+}
+body.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background: var(--heading-color);
+}
