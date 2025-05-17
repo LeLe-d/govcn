@@ -16,16 +16,149 @@
                 <button id="theme-toggle" title="切换主题">
                     <span class="icon">☀️</span> <!-- 初始为太阳图标 -->
                 </button>
-		    				
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-Swal.fire({
-  title: '公告',
-  html: '<img src="https://img.picui.cn/free/2025/05/17/682866e1bbc74.jpg" alt="bandicam 2025-05-17 18-37-04-970.jpg" title="bandicam 2025-05-17 18-37-04-970.jpg" width="300"/><p>由于某些原因，四川及部分地区可能无法访问此网站。</p><p>发布时间:2025年5月17日</a>',
-  icon: 'info',
-  confirmButtonText: '确定'
-});
-</script>
+
+
+
+		    
+				<html>
+<head>
+    <title>美化公告弹窗</title>
+    <style>
+        /* 遮罩层 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* 弹窗主体 */
+        .announcement-box {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 500px;
+            padding: 30px;
+            position: relative;
+            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* 标题样式 */
+        .announcement-header {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .announcement-header h2 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin: 0;
+            display: inline-block;
+        }
+
+        /* 关闭按钮 */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #95a5a6;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #e74c3c;
+            transform: rotate(90deg);
+        }
+
+        /* 内容区域 */
+        .announcement-body {
+            color: #34495e;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* 动画定义 */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 600px) {
+            .announcement-box {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 弹窗结构 -->
+    <div class="modal-overlay" id="modal">
+        <div class="announcement-box">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <div class="announcement-header">
+                <h2>📢 网站公告</h2>
+            </div>
+            <div class="announcement-body">
+<img src="https://img.picui.cn/free/2025/05/17/682866e1bbc74.jpg" alt="bandicam 2025-05-17 18-37-04-970.jpg" title="bandicam 2025-05-17 18-37-04-970.jpg" width="400"/>
+                <ul style="list-style: square; padding-left: 20px;">
+                    <li>由于某些原因，四川及部分地区可能无法访问此网站。</li>
+                    <li>发布时间:2025年5月17日</li>
+                </ul>
+                <p style="margin-top: 20px; color: #e67e22;">※ 如网站无法访问请更换至其他地区节点网络</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 自动显示弹窗
+        window.onload = function() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'flex';
+            
+            // 24小时内不再重复显示
+            if(localStorage.getItem('lastPopup')) {
+                const lastTime = parseInt(localStorage.getItem('lastPopup'));
+                if(Date.now() - lastTime < 86400000) modal.style.display = 'none';
+            }
+        };
+
+        // 关闭功能
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            localStorage.setItem('lastPopup', Date.now());
+            
+            // 添加关闭动画
+            const box = document.querySelector('.announcement-box');
+            box.style.animation = 'slideOut 0.3s ease forwards';
+        }
+
+        // 点击遮罩关闭
+        document.getElementById('modal').onclick = function(e) {
+            if(e.target === this) closeModal();
+        }
+    </script>
+
+
+	
             </div>
             <ul id="notes-list">
                 <!-- 笔记列表项将由 JS 动态生成 -->
