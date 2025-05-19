@@ -134,10 +134,10 @@
             const modal = document.getElementById('modal');
             modal.style.display = 'flex';
             
-            // 24小时内不再重复显示
+            // 2小时内不再重复显示
             if(localStorage.getItem('lastPopup')) {
                 const lastTime = parseInt(localStorage.getItem('lastPopup'));
-                if(Date.now() - lastTime < 86400000) modal.style.display = 'none';
+                if(Date.now() - lastTime < 7200) modal.style.display = 'none';
             }
         };
 
